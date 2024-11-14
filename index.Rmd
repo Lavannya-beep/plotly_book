@@ -1,97 +1,39 @@
---- 
-title: "Interactive Web-Based Data Visualization with R, Plotly, and Shiny"
-author: "Carson Sievert"
-date: "`r Sys.Date()`"
-documentclass: krantz
-bibliography: [book.bib, packages.bib]
-biblio-style: apalike
-link-citations: yes
-colorlinks: yes
-lot: false
-lof: false
-site: bookdown::bookdown_site
-description: "A useR guide to creating highly interactive graphics for exploratory and expository visualization."
-github-repo: ropensci/plotly
-twitter-handle: cpsievert
-#cover-image: images/plotly.png
-always_allow_html: yes
-fontsize: 12pt
-monofont: "Source Code Pro"
-monofontoptions: "Scale=0.7"
----
+import plotly.express as px
+import pandas as pd
+from datetime import datetime, timedelta
 
-```{r setup, include=FALSE}
-library(knitr)
-# global chunk options
-opts_chunk$set(
-  message = FALSE, 
-  warning = FALSE, 
-  comment = "#>",
-  collapse = TRUE,
-  cache = TRUE,
-  fig.show = "hold",
-  fig.align = "center"
+# Define tasks for the maintenance phase
+tasks = [
+    {"Task": "Monitoring and Bug Fixes", "Start": datetime(2024, 11, 15), "End": datetime(2024, 12, 15)},
+    {"Task": "System Updates and Patching", "Start": datetime(2024, 11, 22), "End": datetime(2024, 12, 01)},
+    {"Task": "Performance Optimization", "Start": datetime(2024, 12, 02), "End": datetime(2024, 12, 16)},
+    {"Task": "User Support", "Start": datetime(2024, 11, 15), "End": datetime(2025, 01, 01)},
+    {"Task": "Documentation Updates", "Start": datetime(2024, 12, 16), "End": datetime(2024, 12, 21)},
+    {"Task": "Preventative Maintenance", "Start": datetime(2024, 12, 21), "End": datetime(2025, 01, 05)},
+]
+
+# Convert tasks into a DataFrame
+df = pd.DataFrame(tasks)
+
+# Create the Gantt chart using Plotly
+fig = px.timeline(
+    df,
+    x_start="Start",
+    x_end="End",
+    y="Task",
+    title="Maintenance Phase Gantt Chart for Non-Profit Ride-Sharing System",
+    labels={"Task": "Maintenance Tasks"},
 )
 
-# conditionally global chunk options
-if (knitr::is_latex_output()) {
-  opts_chunk$set(
-    # why does specifying this lead to so many issues?
-    # https://github.com/yihui/bookdown-crc/issues/3
-    # https://github.com/hadley/adv-r/commit/4f99def#diff-04c6e90f
-    out.width = "\\textwidth", 
-    fig.width = 8, 
-    fig.asp = 0.618,
-    fig.pos = "H"
-  )
-}
-if (knitr::is_html_output()) {
-  opts_chunk$set(out.width = "100%")
-  
-  knit_hooks$set(summary = function(before, options, envir) {
-    if (length(options$summary)) {
-      if (before) {
-        return(sprintf("<details><summary>%s</summary>\n", options$summary))
-      } else {
-        return("\n</details>")
-      }
-    }
-  })
-}
-
-include_vimeo <- function(id, width = "100%", height = "400") {
-  if (knitr::is_latex_output()) {
-    img <- paste0("vimeo-images/", id, "/final.png")
-    knitr::include_graphics(img)
-  } else {
-    url <- sprintf("https://player.vimeo.com/video/%s?title=0&byline=0&portrait=0", id)
-    htmltools::tags$iframe(
-      src = url, 
-      width = width, 
-      height = height, 
-      frameborder = "0", 
-      seamless = "seamless",
-      webkitAllowFullScreen = NA, 
-      mozallowfullscreen = NA, 
-      allowFullScreen = NA
-    )
-  }
-}
-
-options(
-  dplyr.print_min = 6, dplyr.print_max = 6, 
-  digits = 3, htmltools.dir.version = FALSE,
-  width = 55, formatR.indent = 2
+# Update layout for better readability
+fig.update_yaxes(categoryorder="total ascending")
+fig.update_layout(
+    xaxis_title="Timeline",
+    yaxis_title="Tasks",
+    title_x=0.5,
+    template="plotly_white"
 )
-```
 
-<!--
- NOTE: comment out this portion when compiling pdf!
+# Show the chart
+fig.show()
 
-# Welcome {-}
-
-<a href="http://bit.ly/r-plotly-book"><img src="crc-cover.png" width="255" height="375" alt="Cover image" align="right" style="margin: 0 1em 0 1em" /></a> This is the website for **"Interactive web-based data visualization with R, plotly, and shiny"**. In this book, you'll gain insight and practical skills for creating interactive and dynamic web graphics for data analysis from `R`. It makes heavy use of **plotly** for rendering graphics, but you'll also learn about other `R` packages that augment a data science workflow, such as the [**tidyverse**](https://www.tidyverse.org/) and [**shiny**](https://shiny.rstudio.com/). Along the way, you'll gain insight into best practices for visualization of high-dimensional data, statistical graphics, and graphical perception. By mastering these concepts and tools, you'll impress your colleagues with your ability to *generate more informative, engaging, and repeatable interactive graphics* using free software that you can share over email, export to PDF/PNG, and more.
-
-An online version of this book, available at <https://plotly-r.com>, is free to use and is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivs 3.0](https://creativecommons.org/licenses/by-nc-nd/3.0/us/) United States License. If you’d like a **physical copy** of the book, you can order it from [CRC Press](https://www.crcpress.com/Interactive-Web-Based-Data-Visualization-with-R-plotly-and-shiny/Sievert/p/book/9781138331457) and [Amazon](https://www.amazon.com/Interactive-Web-Based-Visualization-plotly-Chapman/dp/113833149X). Both the print and online versions of the book are written in [**rmarkdown**](https://rmarkdown.rstudio.com/) with [**bookdown**](https://bookdown.org) and those source files are available at <https://github.com/cpsievert/plotly_book>. The online version will continue to evolve in between reprints of the physical book.
-
---->
